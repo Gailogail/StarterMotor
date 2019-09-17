@@ -53,6 +53,9 @@ class VigenereCipher:
         self.current = 0
    
     def get_key(self):
+        """
+        Get the current key number and increment the current position.
+        """
         key = self.key[self.current]
         self.current = (self.current + 1) % len(self.key)
         return key
@@ -99,6 +102,13 @@ def vigenere_encrypt(text, key):
     >>> key = "lemon"
     >>> vigenere_encrypt(plain_text, key)
     'LXFOPVEFRNHR'
+
+    Args:
+        text - Plain text to encrypt. (str)
+        key  - Cipher key. (str)
+
+    Returns:
+        str  - Cipher text.
     """
     cipher = VigenereCipher(key)
     return cipher.encrypt(text)
@@ -113,6 +123,13 @@ def vigenere_decrypt(text, key):
     >>> key = "lemon"
     >>> vigenere_decrypt(cipher_text, key)
     'attackatdawn'
+
+    Args:
+        text - Cipher text to decrypt. (str)
+        key  - Cipher key. (str)
+
+    Returns:
+        str  - Plain text.
     """
     cipher = VigenereCipher(key)
     return cipher.decrypt(text)
