@@ -113,31 +113,37 @@ args = parser.parse_args()
 # Get the content of args as a dict()
 argsd = vars(args)
 
-
 output = []
 exceptions = []
-for functpl in args.functions:
-    try:
-        result = functpl[1](args.integers)
-    except ZeroDivisionError as ex:
-        result_str = "div by zero"
-        exceptions.append(ex)
-    except ValueError as ex:
-        result_str = "arg to large"
-        exceptions.append(ex)
-    except Exception as ex:
-        exceptions.append(ex)
-    else:
-        fmt_str = argsd[functpl[2]]
+
+if args.functions:
+    for functpl in args.functions:
         try:
-            result_str = fmt_str.format(result)
-        except Exception as ex:
-            result_str = "error"
+            result = functpl[1](args.integers)
+        except ZeroDivisionError as ex:
+            result_str = "div by zero"
             exceptions.append(ex)
+        except ValueError as ex:
+            result_str = "arg to large"
+            exceptions.append(ex)
+        except Exception as ex:
+            exceptions.append(ex)
+        else:
+            fmt_str = argsd[functpl[2]]
+            try:
+                result_str = fmt_str.format(result)
+            except Exception as ex:
+                result_str = "error"
+                exceptions.append(ex)
 
-    output.append(f"{functpl[0]}: {result_str}")
+        output.append(f"{functpl[0]}: {result_str}")
+        print(", ".join(output))
 
-print(", ".join(output))
+else:  # The case with no operators
+    parser.error(
+        "at least one 'operator' option is required"
+    )  #  This raises an argparse.ArgumentError exception that argparse processes
+
 
 # Demonstrate some of the many cool things you can find out about an exception
 # This is 'Deep Magic', so feel free to ignore the details, or all of it
