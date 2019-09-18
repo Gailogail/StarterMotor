@@ -137,7 +137,8 @@ if args.functions:
                 exceptions.append(ex)
 
         output.append(f"{functpl[0]}: {result_str}")
-        print(", ".join(output))
+
+    print(", ".join(output))
 
 else:  # The case with no operators
     parser.error(
